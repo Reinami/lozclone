@@ -8,8 +8,8 @@ Unicorns.Game.prototype = {
 		this.game.time.advancedTiming = true;
 
 		// Create the ground
-		this.room = new Room(this.game);
-		this.room.create();
+		this.map = new Map(this.game);
+		this.map.create();
 
 		// Create the player
 		this.player = new Player(this.game);
@@ -19,4 +19,4 @@ Unicorns.Game.prototype = {
 		this.player.update();
 		// console.log(this.game.time.fps);
 	},
-}
+};

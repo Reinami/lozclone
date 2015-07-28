@@ -5,7 +5,7 @@ Unicorns.Boot = function(){};
 Unicorns.Boot.prototype = {
 	preload: function() {
 		// Load the preload screen images
-		this.load.image('preloadbar', 'assets/images/preloader-bar.png')
+		this.load.image('preloadbar', 'assets/images/preloader-bar.png');
 	},
 	create: function() {
 		// Loading Screen background
@@ -28,6 +28,6 @@ Unicorns.Boot.prototype = {
 		this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		// Start Preloader
-		this.state.start('Preload')
+		this.state.start('Preload');
 	},
-}
+};
