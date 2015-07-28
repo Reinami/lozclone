@@ -1,0 +1,6 @@
+{
+	"speed": 180,
+	"shotCooldown": 1000,
+	"sprite": 79,
+	"scale": 1.75
+}
