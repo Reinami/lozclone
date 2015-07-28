@@ -20,7 +20,6 @@ Unicorns.Boot.prototype = {
 
 		// Center the Game
 		this.scale.pageAlignHorizontally = true;
-		this.game.stage.scale.pageAlignVeritcally = true;
 
 		// Automatically set screen size
 		this.scale.setScreenSize(true);
