@@ -6,7 +6,7 @@ Player.prototype.create = function() {
 	this.playerJSON = JSON.parse(this.game.cache.getText('playerJSON'));
 
 	// Create the player
-	this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'assets', this.playerJSON.sprite)
+	this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'assets', this.playerJSON.sprite);
 	this.player.scale.setTo(this.playerJSON.scale);
 
 	// Enable Player Physics
@@ -29,7 +29,7 @@ Player.prototype.update = function() {
 	var stopMovement = function() {
 		self.player.body.velocity.x = 0;
 		self.player.body.velocity.y = 0;
-	}
+	};
 
 	if (this.cursors.up.isDown) {
 		stopMovement();
@@ -63,7 +63,7 @@ Player.prototype.update = function() {
 	if (this.player.justFired && this.player.nextShotTime && this.game.time.now >= this.player.nextShotTime) {
 		this.player.justFired = false;
 	}
-}
+};
 
 Player.prototype.playerShot = function() {
 	if (!this.player.justFired) {
@@ -111,4 +111,4 @@ Player.prototype.playerShot = function() {
 			playerShot.body.velocity.y += shotSpeed
 		}
 	}
-}
+};

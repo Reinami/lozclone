@@ -19,4 +19,4 @@ Room.prototype.create = function (_areaId) {
 
     //resizes the game world to match the layer dimensions
     this.backgroundlayer.resizeWorld();
-}
+};
