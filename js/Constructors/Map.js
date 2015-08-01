@@ -13,12 +13,11 @@ Map.prototype = {
 	    //create layer
 	    this.backgroundlayer = this.map.createLayer('backgroundLayer');
 	    this.blockedLayer = this.map.createLayer('blockedLayer');
-	    this.triggerLayer = this.map.createLayer('triggerLayer');
 	
 	    //collision on blockedLayer
-	    this.map.setCollisionBetween(1, 1157, true, 'blockedLayer');
+	    this.map.setCollisionBetween(1, 1200, true, 'blockedLayer');
 	
 	    //resizes the game world to match the layer dimensions
 	    this.backgroundlayer.resizeWorld();
-   }
+    }
 };

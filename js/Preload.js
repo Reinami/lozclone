@@ -12,7 +12,7 @@ Unicorns.Preload.prototype = {
 		// Load assets
 		this.load.spritesheet('assets', 'assets/images/assets.png', 32, 32);
 		this.load.text('playerJSON', 'assets/json/player.json');
-		this.load.tilemap('overworld', 'assets/json/areas/overworld/1.json', null, Phaser.Tilemap.TILED_JSON);
+		this.load.tilemap('overworld', 'assets/json/areas/overworld.json', null, Phaser.Tilemap.TILED_JSON);
 	},
 	create: function () {
 		this.state.start('MainMenu');

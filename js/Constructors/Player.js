@@ -23,9 +23,9 @@ Player.prototype = {
 		this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	},
 	update: function() {
-		// This will stop the player from continuing to move
 		var self = this;
-	
+		
+		// This will stop the player from continuing to move
 		var stopMovement = function() {
 			self.player.body.velocity.x = 0;
 			self.player.body.velocity.y = 0;
