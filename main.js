@@ -4,6 +4,6 @@ Unicorns.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AU
 Unicorns.game.state.add('Boot', Unicorns.Boot);
 Unicorns.game.state.add('Preload', Unicorns.Preload);
 Unicorns.game.state.add('MainMenu', Unicorns.MainMenu);
-Unicorns.game.state.add('Game', Unicorns.Game);
+Unicorns.game.state.add('Play', Unicorns.Play);
 
 Unicorns.game.state.start('Boot');

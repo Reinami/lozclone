@@ -1,23 +1,31 @@
 function Map(game){
+	// Game
 	this.game = game;
+	
+	// Main Field
+	this.field = null;
+	
+	// Tile Layers	
+	this.backgroundLayer = null;
+	this.collisionLayer = null;
 };
 
 Map.prototype = {
 	create: function(mapId) {
 		// Prep the rooms
-		this.map = this.game.add.tilemap(mapId);
+		this.field = this.game.add.tilemap(mapId);
 		
 	    //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-	    this.map.addTilesetImage('tiled_assets', 'assets');
+	    this.field.addTilesetImage('tiled_assets', 'assets');
 	
 	    //create layer
-	    this.backgroundlayer = this.map.createLayer('backgroundLayer');
-	    this.blockedLayer = this.map.createLayer('blockedLayer');
+	    this.backgroundLayer = this.field.createLayer('backgroundLayer');
+	    this.collisionLayer = this.field.createLayer('collisionLayer');
 	
 	    //collision on blockedLayer
-	    this.map.setCollisionBetween(1, 1200, true, 'blockedLayer');
+	    this.field.setCollisionBetween(1, 1200, true, 'collisionLayer');
 	
 	    //resizes the game world to match the layer dimensions
-	    this.backgroundlayer.resizeWorld();
+	    this.collisionLayer.resizeWorld();
     }
 };

@@ -1,112 +1,124 @@
 function Player(game){
+	// Game	
 	this.game = game;
+	// Player Sprite
+	this.sprite = null;
+	
+	// Player Controls
+	this.cursors = null;
+	this.fireButton = null;
+	
+	// Player data
+	this.playerJSON = JSON.parse(this.game.cache.getText('playerJSON'));
+	this.direction = 'up';
+	this.justFired = false;
+	this.shotCooldown = this.playerJSON.shotCooldown;
 };
 
 Player.prototype = {
 	create: function () {
-		this.playerJSON = JSON.parse(this.game.cache.getText('playerJSON'));
-	
+		console.log('create');
 		// Create the player
-		this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'assets', this.playerJSON.sprite);
-		this.player.scale.setTo(this.playerJSON.scale);
-	
+		this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'assets', this.playerJSON.sprite);
+		this.sprite.scale.setTo(this.playerJSON.scale);
+		
 		// Enable Player Physics
-		this.game.physics.arcade.enable(this.player);
-		this.player.speed = this.playerJSON.speed;
-		this.player.body.collideWorldBounds = true;
-		this.player.direction = 'up';
-		this.player.justFired = false;
-		this.player.shotCooldown = this.playerJSON.shotCooldown;
+		this.game.physics.arcade.enable(this.sprite);
+		this.sprite.speed = this.playerJSON.speed;
+		this.sprite.body.collideWorldBounds = true;
 	
 		// Create controls
 		this.cursors = this.game.input.keyboard.createCursorKeys();
-		this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		this.fireButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	},
 	update: function() {
 		var self = this;
 		
 		// This will stop the player from continuing to move
 		var stopMovement = function() {
-			self.player.body.velocity.x = 0;
-			self.player.body.velocity.y = 0;
+			self.sprite.body.velocity.x = 0;
+			self.sprite.body.velocity.y = 0;
 		};
 	
 		if (this.cursors.up.isDown) {
 			stopMovement();
-			this.player.body.velocity.y = -this.player.speed;
-			this.player.direction = 'up';
+			this.sprite.body.velocity.y = -this.sprite.speed;
+			this.direction = 'up';
 		}
 		else if (this.cursors.down.isDown) {
 			stopMovement();
-			this.player.body.velocity.y = this.player.speed;
-			this.player.direction = 'down';
+			this.sprite.body.velocity.y = this.sprite.speed;
+			this.direction = 'down';
 		}
 		else if (this.cursors.left.isDown) {
 			stopMovement();
-			this.player.body.velocity.x = -this.player.speed;
-			this.player.direction = 'left';
+			this.sprite.body.velocity.x = -this.sprite.speed;
+			this.direction = 'left';
 		}
 		else if (this.cursors.right.isDown) {
 			stopMovement();
-			this.player.body.velocity.x = this.player.speed;
-			this.player.direction = 'right';
+			this.sprite.body.velocity.x = this.sprite.speed;
+			this.direction = 'right';
 		}
 		else {
 			stopMovement();
 		}
 	
-		if (this.shootButton.isDown) {
+		if (this.fireButton.isDown) {
 			this.playerShot();
 		}
 	
 		// Check to see if player can fire again
-		if (this.player.justFired && this.player.nextShotTime && this.game.time.now >= this.player.nextShotTime) {
-			this.player.justFired = false;
+		if (this.justFired && this.nextShotTime && this.game.time.now >= this.nextShotTime) {
+			this.justFired = false;
 		}
 	},
 	playerShot: function () {
-		if (!this.player.justFired) {
-			this.player.justFired = true;
-			this.player.nextShotTime = this.game.time.now + this.player.shotCooldown;
+		if (!this.justFired) {
+			this.justFired = true;
+			this.nextShotTime = this.game.time.now + this.shotCooldown;
 	
 			// Calculate Shot spawn values
+			// TODO: Move these to a constants section
 			var spawnDistance = 35;
 			var shotSpeed = 300;
-			var direction = this.player.direction;
-			var location = this.player.world;
-			var spawnLocation = {'x': location.x, 'y': location.y};
-			if (direction==='left') {
-				spawnLocation.x -= spawnDistance;
+			var playerLocation = this.sprite.world;
+			
+			var shotSpawnLocation = {'x': playerLocation.x, 'y': playerLocation.y};
+			if (this.direction==='left') {
+				shotSpawnLocation.x -= spawnDistance;
 			}
-			else if (direction==='right') {
-				spawnLocation.x += spawnDistance;
+			else if (this.direction==='right') {
+				shotSpawnLocation.x += spawnDistance;
 			}
-			else if (direction==='up') {
-				spawnLocation.y -= spawnDistance;
+			else if (this.direction==='up') {
+				shotSpawnLocation.y -= spawnDistance;
 			}
-			else if (direction==='down') {
-				spawnLocation.y += spawnDistance;
+			else if (this.direction==='down') {
+				shotSpawnLocation.y += spawnDistance;
 			}
 	
 			// Spawn Shot
-			var playerShot = this.game.add.sprite(spawnLocation.x, spawnLocation.y, 'assets', 418);
+			var playerShot = this.game.add.sprite(shotSpawnLocation.x, shotSpawnLocation.y, 'assets', 418);
+			
 			playerShot.animations.add('move', [418, 419, 420], 5, false);
 			playerShot.animations.play('move');
+			
 			this.game.physics.arcade.enable(playerShot);
 			playerShot.checkWorldBounds = true;
 			playerShot.outOfBoundsKill = true;
 	
 			// Shot physics
-			if (direction==='left') {
+			if (this.direction==='left') {
 				playerShot.body.velocity.x -= shotSpeed;
 			}
-			else if (direction==='right') {
+			else if (this.direction==='right') {
 				playerShot.body.velocity.x += shotSpeed;
 			}
-			else if (direction==='up') {
+			else if (this.direction==='up') {
 				playerShot.body.velocity.y -= shotSpeed;
 			}
-			else if (direction==='down') {
+			else if (this.direction==='down') {
 				playerShot.body.velocity.y += shotSpeed;
 			}
 		}
