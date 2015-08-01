@@ -4,6 +4,7 @@ Unicorns.Play = function(){};
 
 Unicorns.Play.prototype = {
 	create: function (self, mapId, player) {
+		var self = this;
 		// If no map id given, assume start of the game.
 		this.mapId = mapId ? mapId : 'overworld';
 		
@@ -17,10 +18,15 @@ Unicorns.Play.prototype = {
 		// Create the player
 		this.player = player ? player : new Player(this.game);
 		this.player.create();
+		
+		// Create Collision detection
+		this.collisionDetection = new CollisionDetection(this.game,
+														 this.player,
+														 this.map);
 	},
 	update: function() {
 		this.player.update();
-		this.game.physics.arcade.collide(this.player.sprite, this.map.collisionLayer);
+		this.collisionDetection.update();
 		// console.log(this.game.time.fps);
 	},
 };

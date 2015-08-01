@@ -1,6 +1,7 @@
 function Player(game){
 	// Game	
 	this.game = game;
+	
 	// Player Sprite
 	this.sprite = null;
 	
