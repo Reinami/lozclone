@@ -26,7 +26,6 @@ Player.prototype = {
 		// Enable Player Physics
 		this.game.physics.arcade.enable(this.sprite);
 		this.sprite.speed = this.playerJSON.speed;
-		this.sprite.body.collideWorldBounds = true;
 	
 		// Create controls
 		this.cursors = this.game.input.keyboard.createCursorKeys();

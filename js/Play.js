@@ -10,7 +10,7 @@ Unicorns.Play.prototype = {
 		
 		// Debug
 		this.game.time.advancedTiming = true;
-
+		
 		// Create the ground
 		this.map = new Map(this.game);
 		this.map.create(this.mapId);
