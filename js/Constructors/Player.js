@@ -102,6 +102,7 @@ Player.prototype = {
 			// Spawn Shot
 			var playerShot = this.game.add.sprite(shotSpawnLocation.x, shotSpawnLocation.y, 'assets', 418);
 			
+			playerShot.scale.setTo(0.75);
 			playerShot.animations.add('move', [418, 419, 420], 5, false);
 			playerShot.animations.play('move');
 			
