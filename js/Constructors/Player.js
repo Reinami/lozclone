@@ -1,6 +1,7 @@
-function Player(game){
+function Player(game, map){
 	// Game	
 	this.game = game;
+	this.map = map;
 	
 	// Player Sprite
 	this.sprite = null;
@@ -18,9 +19,10 @@ function Player(game){
 
 Player.prototype = {
 	create: function () {
-		console.log('create');
 		// Create the player
-		this.sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'assets', this.playerJSON.sprite);
+		var playerStartPosition = {'x': (this.map.mapBounds.minX + this.map.mapBounds.maxX)/2, 'y': (this.map.mapBounds.minY + this.map.mapBounds.maxY)/2};
+		
+		this.sprite = this.game.add.sprite(playerStartPosition.x, playerStartPosition.y, 'assets', this.playerJSON.sprite);
 		this.sprite.scale.setTo(this.playerJSON.scale);
 		
 		// Enable Player Physics
@@ -33,6 +35,9 @@ Player.prototype = {
 	},
 	update: function() {
 		var self = this;
+		
+		// Check if player is going beyond world bounds
+		this.checkMapBounds();
 		
 		// This will stop the player from continuing to move
 		var stopMovement = function() {
@@ -122,6 +127,28 @@ Player.prototype = {
 			else if (this.direction==='down') {
 				playerShot.body.velocity.y += shotSpeed;
 			}
+		}
+	},
+	
+	checkMapBounds: function() {
+		var playerPosition = this.sprite.position;
+		var mapBounds = this.map.mapBounds;
+		
+		if (playerPosition.y <= mapBounds.minY) {
+			this.map.scrollDirection = 'up';
+			this.sprite.y = this.sprite.y - TILESPACING;
+		}
+		else if (playerPosition.y >= mapBounds.maxY) {
+			this.map.scrollDirection = 'down';
+			this.sprite.y = this.sprite.y + TILESPACING;
+		}
+		else if (playerPosition.x <= mapBounds.minX) {
+			this.map.scrollDirection = 'left';
+			this.sprite.x = this.sprite.x - TILESPACING;
+		}
+		else if (playerPosition.x >= mapBounds.maxX) {
+			this.map.scrollDirection = 'right';
+			this.sprite.x = this.sprite.x + TILESPACING;
 		}
 	}
 };

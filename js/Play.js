@@ -11,12 +11,13 @@ Unicorns.Play.prototype = {
 		// Debug
 		this.game.time.advancedTiming = true;
 		
-		// Create the ground
+		// Create the map
+		this.game.world.setBounds(64, 64, GAMEHEIGHT, GAMEWIDTH);
 		this.map = new Map(this.game);
 		this.map.create(this.mapId);
 
 		// Create the player
-		this.player = player ? player : new Player(this.game);
+		this.player = player ? player : new Player(this.game, this.map);
 		this.player.create();
 		
 		// Create Collision detection
@@ -26,6 +27,7 @@ Unicorns.Play.prototype = {
 	},
 	update: function() {
 		this.player.update();
+		this.map.update();
 		this.collisionDetection.update();
 		// console.log(this.game.time.fps);
 	},
